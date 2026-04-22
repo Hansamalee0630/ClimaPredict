@@ -79,6 +79,7 @@
 import os
 import pandas as pd
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
@@ -88,6 +89,7 @@ import joblib
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 
 # 2. Connect to MongoDB Atlas
 MONGO_URI = os.getenv("MONGO_URI")

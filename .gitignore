@@ -1,0 +1,22 @@
+# --- React Frontend ---
+node_modules/
+build/
+dist/
+npm-debug.log*
+.eslintcache
+
+# --- Python Backend ---
+__pycache__/
+.venv/
+.venv-1/
+venv/
+*.pyc
+
+# --- Environment Variables (Security) ---
+.env
+.env.local
+
+# --- OS / Editor Files ---
+.vscode/
+.DS_Store
+Thumbs.db
