@@ -7,6 +7,7 @@ import HistoryChart from './components/HistoryChart';
 import ThresholdControls from './components/ThresholdControls';
 import InfoTooltip from './components/InfoTooltip';
 import { genForecast } from './components/ForecastGenerator';
+import ChatWidget from './components/ChatWidget';
 import { LayoutGrid, Thermometer, Droplets, Wind, Activity, BrainCircuit, ShieldAlert, ShieldCheck } from 'lucide-react';
 import './App.css';
 
@@ -318,8 +319,8 @@ function App() {
                     {mlInsights.is_anomaly ? <ShieldAlert size={18} /> : <ShieldCheck size={18} />}
                     <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: 1 }}>ISOLATION FOREST ANOMALY</span>
                  </div>
-                 <div style={{ fontSize: 24, fontWeight: 700, color: mlInsights.is_anomaly ? '#f43f5e' : '#10b981', marginTop: 6 }}>
-                    {mlInsights.is_anomaly ? "🚨 ANOMALY DETECTED" : "🛡️ ENVIRONMENT NORMAL"}
+                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 24, fontWeight: 700, color: mlInsights.is_anomaly ? '#f43f5e' : '#10b981', marginTop: 6 }}>
+                    {mlInsights.is_anomaly ? <><ShieldAlert size={28} /> ANOMALY DETECTED</> : <><ShieldCheck size={28} /> ENVIRONMENT NORMAL</>}
                  </div>
                  <div style={{ fontSize: 12, color: mlInsights.is_anomaly ? '#fb7185' : '#34d399', marginTop: 12 }}>
                     {mlInsights.is_anomaly ? "Unnatural environmental spike registered." : "No anomalies detected by AI model."}
@@ -474,6 +475,7 @@ function App() {
           </div>
         </div>
       )}
+      <ChatWidget dashboardState={{ tab, lastReading, mlInsights, thresholds }} />
     </div>
     </>
   );

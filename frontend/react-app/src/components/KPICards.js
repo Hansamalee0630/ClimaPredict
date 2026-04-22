@@ -92,7 +92,7 @@ export default function KPICards({ history, lastReading }) {
     if (!arr || arr.length === 0) return '--';
     const vals = arr
       .map(r => {
-        const v = r?.dht22?.[key] ?? r?.[key];
+        const v = r?.dht22?.[key] ?? r?.ens160?.[key] ?? r?.[key];
         return typeof v === 'number' ? v : null;
       })
       .filter(x => x != null);

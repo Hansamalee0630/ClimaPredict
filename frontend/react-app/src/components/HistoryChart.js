@@ -15,7 +15,11 @@ export default function HistoryChart({ history, forecast, keyName, title, color 
   };
 
   const hist = (history || [])
-    .map(r => ({ x: new Date(r.server_timestamp), y: r?.dht22?.[keyName] ?? r?.[keyName] ?? null }))
+    .map(r => {
+      let val = r?.dht22?.[keyName] ?? r?.ens160?.[keyName] ?? r?.[keyName];
+      if (val == null && keyName === 'co2') val = r?.ens160?.eco2 ?? r?.eco2;
+      return { x: new Date(r.server_timestamp), y: val ?? null };
+    })
     .filter(r => r.y !== null);
 
   const fore = forecast || [];
@@ -99,6 +103,7 @@ export default function HistoryChart({ history, forecast, keyName, title, color 
       <Plot
         data={traces}
         layout={{
+          uirevision: 'true',
           width: undefined,
           height: 340,
           autosize: true,

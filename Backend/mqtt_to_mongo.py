@@ -13,7 +13,8 @@ load_dotenv(dotenv_path=env_path)
 # 2. --- MONGODB CONFIGURATION ---
 MONGO_URI = os.getenv("MONGO_URI")
 DB_NAME = "climapredict_db"
-COLLECTION_NAME = "sensor_logs"
+# COLLECTION_NAME = "sensor_logs"
+COLLECTION_NAME = "sensor_logs_test"
 
 print("Connecting to MongoDB Atlas...")
 try:
