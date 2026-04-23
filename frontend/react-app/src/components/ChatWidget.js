@@ -10,8 +10,22 @@ const ChatWidget = ({ dashboardState }) => {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
   
   const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    // Show welcome message every time the page loads/refreshes
+    const timer = setTimeout(() => {
+      setShowWelcomeMessage(true);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const dismissWelcome = (e) => {
+    if (e) e.stopPropagation();
+    setShowWelcomeMessage(false);
+  };
 
   // Auto-scroll to bottom of messages
   const scrollToBottom = () => {
@@ -25,6 +39,10 @@ const ChatWidget = ({ dashboardState }) => {
   }, [messages, isOpen]);
 
   const handleToggle = () => {
+    if (showWelcomeMessage) {
+      dismissWelcome();
+    }
+    
     if (isOpen) {
       setIsClosing(true);
       setTimeout(() => {
@@ -159,6 +177,18 @@ const ChatWidget = ({ dashboardState }) => {
             </button>
           </form>
 
+        </div>
+      )}
+
+      {!isOpen && showWelcomeMessage && (
+        <div className="chat-welcome-message fade-in-up" onClick={handleToggle}>
+          <button className="chat-welcome-close" onClick={(e) => dismissWelcome(e)} title="Dismiss">
+            <X size={14} />
+          </button>
+          <div className="chat-welcome-content">
+            <span role="img" aria-label="wave" className="chat-welcome-icon">👋</span>
+            <p>Hi! I'm your ClimaPredict AI assistant. Need any help analyzing the dashboard?</p>
+          </div>
         </div>
       )}
 

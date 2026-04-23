@@ -385,3 +385,117 @@
   stroke: #f97316 !important;
   color: #f97316 !important;
 }
+
+/* ── WELCOME MESSAGE OVERRIDES ── */
+
+.chat-welcome-message {
+  margin-bottom: 16px;
+  width: 280px;
+  background: rgba(30, 41, 59, 0.95);
+  backdrop-filter: blur(8px);
+  color: white;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-welcome-message:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.chat-welcome-message::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  right: 20px;
+  border-width: 6px 6px 0;
+  border-style: solid;
+  border-color: rgba(30, 41, 59, 0.95) transparent transparent transparent;
+}
+
+.chat-welcome-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.chat-welcome-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.chat-welcome-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-right: 14px; /* Space for close btn */
+}
+
+.chat-welcome-icon {
+  font-size: 20px;
+  animation: wave 2.5s infinite;
+  transform-origin: 70% 70%;
+}
+
+@keyframes wave {
+  0% { transform: rotate(0.0deg) }
+  10% { transform: rotate(14.0deg) }
+  20% { transform: rotate(-8.0deg) }
+  30% { transform: rotate(14.0deg) }
+  40% { transform: rotate(-4.0deg) }
+  50% { transform: rotate(10.0deg) }
+  60% { transform: rotate(0.0deg) }
+  100% { transform: rotate(0.0deg) }
+}
+
+.chat-welcome-content p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+/* Light theme support */
+[data-theme="light"] .chat-welcome-message {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 10px 25px rgba(249, 115, 22, 0.3);
+}
+
+[data-theme="light"] .chat-welcome-message:hover {
+  box-shadow: 0 12px 30px rgba(249, 115, 22, 0.4);
+}
+
+[data-theme="light"] .chat-welcome-message::after {
+  border-color: #ea580c transparent transparent transparent;
+}
+
+[data-theme="light"] .chat-welcome-close {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="light"] .chat-welcome-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
