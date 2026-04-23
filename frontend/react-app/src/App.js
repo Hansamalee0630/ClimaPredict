@@ -249,6 +249,18 @@ function App() {
     return { tmp_w: 26, tmp_d: 30, hum_w: 50, hum_d: 65, co2_w: 700, co2_d: 1000 };
   });
 
+  const [dateFrom, setDateFrom] = useState(() => {
+     const d = new Date();
+     d.setDate(d.getDate() - 7);
+     return d.toISOString().split('T')[0];
+  });
+  
+  const [dateTo, setDateTo] = useState(() => {
+     const d = new Date();
+     d.setDate(d.getDate() + 3); // Forecast buffer identical to Streamlit
+     return d.toISOString().split('T')[0];
+  });
+
   // Apply theme to root element
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -257,15 +269,22 @@ function App() {
 
   const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark');
 
+  // Auto-refresh when date ranges change
   useEffect(() => {
     loadData();
     const id = setInterval(loadData, 5000); // SPED UP TO 5 SECONDS FOR LIVE DEMO
     return () => clearInterval(id);
-  }, []);
+  }, [dateFrom, dateTo]);
 
   async function loadData() {
     try { const r1 = await getLatest();    setLatest(r1.data.data ? r1.data.data : r1.data); }    catch (e) { console.warn(e); }
-    try { const r2 = await getHistory(72); setHistory(r2.data.data || []); } catch (e) { console.warn(e); }
+    try { 
+      // Ensure backend covers the entire chosen days
+      const start = dateFrom ? `${dateFrom}T00:00:00.000Z` : null;
+      const end = dateTo ? `${dateTo}T23:59:59.999Z` : null;
+      const r2 = await getHistory({ start, end }); 
+      setHistory(r2.data.data || []); 
+    } catch (e) { console.warn(e); }
   }
 
   const forecast    = genForecast(history, 14);
@@ -282,7 +301,13 @@ function App() {
         <div className="aurora-blob blob-3" />
       </div>
       <div className="container">
-        <Header onRefresh={loadData} theme={theme} onToggleTheme={toggleTheme} />
+        <Header 
+          onRefresh={loadData} 
+          theme={theme} 
+          onToggleTheme={toggleTheme} 
+          dateFrom={dateFrom} setDateFrom={setDateFrom}
+          dateTo={dateTo} setDateTo={setDateTo}
+        />
         <Tabs active={tab} onChange={setTab} />
 
       {/* ── Overview ── */}

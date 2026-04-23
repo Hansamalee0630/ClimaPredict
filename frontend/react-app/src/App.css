@@ -845,11 +845,86 @@ input[type="range"]::-moz-range-thumb {
   border-color: rgba(254, 166, 111, 0.3);
 }
 
+/* ─── Date Picker Filter ─── */
+.date-picker-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(12px);
+  margin-left: 10px;
+}
+
+.date-picker-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-picker-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.date-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
+  color: var(--text-bright);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  outline: none;
+  transition: all 0.3s ease;
+  color-scheme: dark; /* Force native dark mode for the popup picker */
+  cursor: pointer;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.date-input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+.date-input:hover, .date-input:focus {
+  border-color: var(--accent-2);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: var(--glow-purple);
+}
+
+/* Light mode overrides */
+[data-theme="light"] .date-picker-group {
+  background: var(--card);
+  border-color: var(--card-border);
+}
+
+[data-theme="light"] .date-input {
+  background: #ffffff;
+  color: #000000;
+  color-scheme: light;
+}
+
+[data-theme="light"] .date-input:hover, [data-theme="light"] .date-input:focus {
+  border-color: var(--accent-2);
+  box-shadow: var(--glow-purple);
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
   .container { padding: 16px 16px 48px; }
   .header { flex-direction: column; align-items: flex-start; gap: 14px; }
-  .controls { width: 100%; }
+  .controls { width: 100%; flex-wrap: wrap; }
+  .date-picker-group { width: 100%; justify-content: space-between; margin-left: 0; }
   .btn { flex: 1; justify-content: center; }
   .title h1 { font-size: 22px; }
   .kpi-val { font-size: 32px; }

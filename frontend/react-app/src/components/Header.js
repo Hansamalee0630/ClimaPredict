@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Leaf, Sun, Moon, RotateCcw, RefreshCcw, Activity, Wifi, Brain, Lock, Zap, Clock } from 'lucide-react';
 
-export default function Header({ onRefresh, theme, onToggleTheme }) {
+export default function Header({ onRefresh, theme, onToggleTheme, dateFrom, setDateFrom, dateTo, setDateTo }) {
   const [time, setTime] = useState(new Date());
   const [spinning, setSpinning] = useState(false);
   const isLight = theme === 'light';
@@ -41,6 +41,28 @@ export default function Header({ onRefresh, theme, onToggleTheme }) {
         </div>
 
         <div className="controls">
+          {/* Date Range Picker */}
+          <div className="date-picker-group">
+            <div className="date-picker-wrap">
+              <span className="date-picker-label">From</span>
+              <input 
+                type="date" 
+                className="date-input" 
+                value={dateFrom} 
+                onChange={(e) => setDateFrom(e.target.value)}
+              />
+            </div>
+            <div className="date-picker-wrap">
+              <span className="date-picker-label">To</span>
+              <input 
+                type="date" 
+                className="date-input" 
+                value={dateTo} 
+                onChange={(e) => setDateTo(e.target.value)}
+              />
+            </div>
+          </div>
+
           {/* Theme Toggle */}
           <button className="theme-toggle" onClick={onToggleTheme} title={`Switch to ${isLight ? 'dark' : 'light'} mode`}>
             <div className={`theme-toggle-track ${isLight ? 'light' : 'dark'}`}>

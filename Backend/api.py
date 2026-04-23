@@ -95,13 +95,27 @@ def get_latest_data():
 # --- ENDPOINT 2: CHARTS (HISTORY) ---
 @app.route('/api/history', methods=['GET'])
 def get_history():
-    """Fetches historical data for the last X hours (defaults to 24)."""
+    """Fetches historical data for the last X hours or a specific date range."""
     try:
-        hours = int(request.args.get('hours', 24))
-        time_threshold = datetime.now(timezone.utc) - timedelta(hours=hours)
+        start_date = request.args.get('start')
+        end_date = request.args.get('end')
+        
+        query_condition = {}
+        
+        if start_date and end_date:
+            # When full ISO dates are provided from frontend
+            query_condition = {
+                "$gte": start_date,
+                "$lte": end_date
+            }
+        else:
+            # Non-breaking safe fallback to original hours parameter
+            hours = int(request.args.get('hours', 24))
+            time_threshold = datetime.now(timezone.utc) - timedelta(hours=hours)
+            query_condition = {"$gte": time_threshold.isoformat()}
         
         cursor = collection.find(
-            {"server_timestamp": {"$gte": time_threshold.isoformat()}},
+            {"server_timestamp": query_condition},
             {"_id": 0} 
         ).sort("server_timestamp", 1) 
         
