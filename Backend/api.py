@@ -19,7 +19,7 @@ CORS(app)
 MONGO_URI = os.getenv("MONGO_URI")
 mongo_client = MongoClient(MONGO_URI)
 db = mongo_client["climapredict_db"]
-collection = db["sensor_logs"]
+collection = db["sensor_logs_indoor"]
 
 # Configure Gemini using the NEW SDK
 GENAI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -120,6 +120,37 @@ def get_history():
         ).sort("server_timestamp", 1) 
         
         data = list(cursor)
+        
+        if data:
+            # Flatten into a Pandas DataFrame to fill missing gaps
+            df = pd.json_normalize(data)
+            
+            # Apply linear interpolation as requested
+            numeric_cols = df.select_dtypes(include=['number']).columns
+            df[numeric_cols] = df[numeric_cols].interpolate(method='linear', limit_direction='both')
+            
+            # Reconstruct the nested dictionary structure
+            interpolated_data = []
+            for record in df.to_dict(orient='records'):
+                new_rec = {}
+                for k, v in record.items():
+                    if pd.isna(v):
+                        v = None
+                    
+                    if '.' in k:
+                        parts = k.split('.')
+                        curr = new_rec
+                        for part in parts[:-1]:
+                            if part not in curr:
+                                curr[part] = {}
+                            curr = curr[part]
+                        curr[parts[-1]] = v
+                    else:
+                        new_rec[k] = v
+                interpolated_data.append(new_rec)
+            
+            data = interpolated_data
+
         return jsonify({"status": "success", "count": len(data), "data": data}), 200
         
     except Exception as e:

@@ -14,7 +14,8 @@ load_dotenv(dotenv_path=env_path)
 MONGO_URI = os.getenv("MONGO_URI")
 DB_NAME = "climapredict_db"
 # COLLECTION_NAME = "sensor_logs"
-COLLECTION_NAME = "sensor_logs_test"
+# COLLECTION_NAME = "sensor_logs_test"
+COLLECTION_NAME = "sensor_logs_indoor"
 
 print("Connecting to MongoDB Atlas...")
 try:
@@ -49,6 +50,12 @@ def on_message(client, userdata, msg):
         payload_str = msg.payload.decode('utf-8')
         sensor_data = json.loads(payload_str)
         
+        # Validate data to prevent hardware anomaly spikes
+        eco2_val = sensor_data.get('ens160', {}).get('eco2')
+        if eco2_val is not None and eco2_val > 10000:
+            print(f"[WARNING] Ignoring anomalous eCO2 reading: {eco2_val} ppm")
+            return
+            
         # Add a proper UTC server timestamp for Time-Series ML training later
         sensor_data["server_timestamp"] = datetime.now(timezone.utc).isoformat()
         

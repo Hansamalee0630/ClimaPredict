@@ -12,7 +12,7 @@ print("Connecting to MongoDB Atlas...")
 try:
     client = MongoClient(MONGO_URI)
     db = client["climapredict_db"]
-    collection = db["sensor_logs"]
+    collection = db["sensor_logs_indoor"]
 except Exception as e:
     print(f"[ERROR] Could not connect to database: {e}")
     exit()
