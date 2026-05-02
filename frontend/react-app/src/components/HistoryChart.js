@@ -7,7 +7,7 @@ const CHART_COLORS = {
   co2:         { hist: '#34d399', fore: '#6ee7b7', fill: 'rgba(52, 211, 153, 0.08)'  },
 };
 
-export default function HistoryChart({ history, forecast, keyName, title, color }) {
+export default function HistoryChart({ history, forecast, keyName, title, color, thresholds }) {
   const palette = CHART_COLORS[keyName] || {
     hist: color || '#63dcff',
     fore: '#a78bfa',
@@ -78,6 +78,28 @@ export default function HistoryChart({ history, forecast, keyName, title, color 
     });
   }
 
+  const shapes = [];
+  if (thresholds) {
+    let warnVal = null;
+    let dangerVal = null;
+    if (keyName === 'temperature') { warnVal = thresholds.tmp_w; dangerVal = thresholds.tmp_d; }
+    else if (keyName === 'humidity') { warnVal = thresholds.hum_w; dangerVal = thresholds.hum_d; }
+    else if (keyName === 'co2') { warnVal = thresholds.co2_w; dangerVal = thresholds.co2_d; }
+    
+    if (dangerVal != null) {
+      shapes.push({
+        type: 'line', xref: 'paper', x0: 0, x1: 1, yref: 'y', y0: dangerVal, y1: dangerVal,
+        line: { color: 'rgba(244, 63, 94, 0.7)', width: 1.5, dash: 'dashdot' }
+      });
+    }
+    if (warnVal != null) {
+      shapes.push({
+        type: 'line', xref: 'paper', x0: 0, x1: 1, yref: 'y', y0: warnVal, y1: warnVal,
+        line: { color: 'rgba(250, 204, 21, 0.7)', width: 1.5, dash: 'dashdot' }
+      });
+    }
+  }
+
   return (
     <div className="chart-panel fade-in">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
@@ -133,6 +155,7 @@ export default function HistoryChart({ history, forecast, keyName, title, color 
             tickfont: { size: 10 },
             linecolor: 'rgba(255,255,255,0.06)',
           },
+          shapes: shapes,
           showlegend: traces.length > 1,
           legend: {
             orientation: 'h',
