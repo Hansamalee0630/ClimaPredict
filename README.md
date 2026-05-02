@@ -19,8 +19,7 @@
 <br/>
 
 ![ClimaPredict cover](ClimaPredict.png)
-![ClimaPredict dashboard](ClimaPredict.png)
-![ClimaPredict Logo](ClimaPredict.png)
+
 <br/>
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
