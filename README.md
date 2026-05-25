@@ -97,6 +97,8 @@ A high-resolution system design overview:
 
 ## 🗺️ Architecture & Data Flow
 
+![Architecture Diagram](assets/System%20Archi.png)
+
 ```mermaid
 flowchart TD
     %% Define Nodes
