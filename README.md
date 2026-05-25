@@ -55,7 +55,7 @@ The central telemetry interface showing real-time temperature, humidity, and CO�
 
 | 🌙 Dark Mode | 📱 Mobile View |
 |:---:|:---:|
-| ![Main Overview Dashboard (Dark)](assets/ClimaPredict.png) | ![Mobile View](assets/Mobile_version.png) |
+| ![Main Overview Dashboard (Dark)](assets/Overview_Light.png) | ![Mobile View](assets/Mobile_version.png) |
 
 </details>
 
@@ -96,8 +96,6 @@ A high-resolution system design overview:
 ---
 
 ## 🗺️ Architecture & Data Flow
-
-![Architecture Diagram](assets/System%20Archi.png)
 
 ```mermaid
 flowchart TD
