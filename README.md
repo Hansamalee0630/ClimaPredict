@@ -2,7 +2,7 @@
 
 <br/>
 
-```
+```text
 ╔═══════════════════════════════════════════════════════════╗
 ║   ██████╗██╗     ██╗███╗   ███╗ █████╗                   ║
 ║  ██╔════╝██║     ██║████╗ ████║██╔══██╗                  ║
@@ -14,11 +14,11 @@
 ╚═══════════════════════════════════════════════════════════╝
 ```
 
-### *Don't just monitor your environment — predict it.*
+### *Shifting environmental analytics from reactive telemetry to predictive science.*
 
 <br/>
 
-![ClimaPredict Logo](ClimaPredict.png)
+![ClimaPredict Overview Dashboard](assets/ClimaPredict.png)
 
 <br/>
 
@@ -29,48 +29,104 @@
 [![Google Gemini](https://img.shields.io/badge/Google%20Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://deepmind.google/technologies/gemini/)
 [![MQTT](https://img.shields.io/badge/MQTT-3C5280?style=for-the-badge&logo=eclipse-mosquitto&logoColor=white)](https://mqtt.org/)
 
-<br/>
-
 </div>
 
 ---
 
 ## ⚡ What is ClimaPredict?
 
-> **ClimaPredict** is an explainable, predictive environmental analytics platform that transforms indoor health monitoring from a passive activity into an active, anticipatory science.
+> **ClimaPredict** is an explainable, predictive environmental analytics platform. It changes indoor climate tracking from a historical logging chore into an **anticipatory intelligence hub**.
 
-Rather than simply logging temperature, humidity, and CO₂ readings after the fact, ClimaPredict ingests live IoT sensor streams, applies machine learning models, and surfaces **what's about to happen** — giving you the window to act before conditions deteriorate.
+Instead of warning you *after* a room becomes stuffy or overheated, ClimaPredict ingests live IoT data streams, runs them through locally trained machine learning models, and forecasts environmental spikes before they happen—allowing operators to act proactively.
 
-Built for labs, offices, research facilities, and smart buildings that demand more than a dashboard.
+Designed with a premium glassmorphic UI and backed by the Google Gemini API, ClimaPredict brings real-time forecasting, smart anomaly detection, and semantic data analysis together under one cohesive platform.
 
 ---
 
-## 🗺️ Architecture Overview
+## 📸 Interface Showcase
 
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│                         CLIENT LAYER                           │
-│   ┌──────────────────────────────────────────────────────┐     │
-│   │   React.js Frontend  │  Glassmorphism UI  │  AI Chat  │     │
-│   └──────────────────────────────────────────────────────┘     │
-└──────────────────────────────┬──────────────────────────────────┘
-                               │  REST API
-┌──────────────────────────────▼──────────────────────────────────┐
-│                        BACKEND LAYER                           │
-│   ┌──────────────┐   ┌───────────────┐   ┌──────────────────┐  │
-│   │  Flask API   │   │  ML Pipeline  │   │  Gemini AI API   │  │
-│   │  (REST)      │   │  (Forecast +  │   │  (Chatbot +      │  │
-│   │              │   │   Anomaly)    │   │   Insights)      │  │
-│   └──────┬───────┘   └───────────────┘   └──────────────────┘  │
-└──────────┼──────────────────────────────────────────────────────┘
-           │
-┌──────────▼──────────────────────────────────────────────────────┐
-│                         DATA LAYER                             │
-│   ┌───────────────────────┐     ┌──────────────────────────┐   │
-│   │  MongoDB              │     │   MQTT Broker            │   │
-│   │  (Raw + Filtered Data)│◄────│   (Live IoT Streams)     │   │
-│   └───────────────────────┘     └──────────────────────────┘   │
-└─────────────────────────────────────────────────────────────────┘
+Explore the ClimaPredict interface across different panels and themes:
+
+<details open>
+<summary><b>🖥️ Main Overview Dashboard</b></summary>
+<br/>
+
+The central telemetry interface showing real-time temperature, humidity, and CO₂ statistics with live gauges:
+
+| 🌙 Dark Mode | 📱 Mobile View |
+|:---:|:---:|
+| ![Main Overview Dashboard (Dark)](assets/ClimaPredict.png) | ![Mobile View](assets/Mobile_version.png) |
+
+</details>
+
+<details>
+<summary><b>🔮 Predictive Lab Forecasts</b></summary>
+<br/>
+
+The machine learning interface showcasing historical sensor trends alongside projected 1-hour forecasts:
+
+| 🌙 Dark Mode | ☀️ Light Mode |
+|:---:|:---:|
+| ![Predictive Lab (Dark)](assets/PredictiveLab_Dark.png) | ![Predictive Lab (Light)](assets/PredictiveLab_Light.png) |
+
+</details>
+
+<details>
+<summary><b>🍃 Air Quality Analytics</b></summary>
+<br/>
+
+Deep-dive air quality monitoring, graphing TVOC and eCO₂ concentrations over time:
+
+| 🌙 Dark Mode | ☀️ Light Mode |
+|:---:|:---:|
+| ![Air Quality (Dark)](assets/AIrQ_Dark.png) | ![Air Quality (Light)](assets/AirQ_Light.png) |
+
+</details>
+
+<details>
+<summary><b>🧱 System Architecture Diagram</b></summary>
+<br/>
+
+A high-resolution system design overview:
+
+![System Architecture](assets/System%20Archi.png)
+
+</details>
+
+---
+
+## 🗺️ Architecture & Data Flow
+
+```mermaid
+flowchart TD
+    %% Define Nodes
+    subgraph ClientLayer ["🖥️ Client Layer (Frontend)"]
+        React["React.js Dashboard"]
+        UI["Glassmorphic Design UI"]
+        AIChat["Gemini AI Chat Widget"]
+    end
+
+    subgraph BackendLayer ["⚙️ Logic Layer (Backend)"]
+        Flask["Flask REST API<br/>(api.py)"]
+        MLPipeline["ML Pipeline<br/>(Random Forest / Isolation Forest)"]
+        GeminiSDK["Google GenAI SDK<br/>(gemini-2.5-flash-lite)"]
+    end
+
+    subgraph DataLayer ["🗄️ Ingestion & Storage Layer"]
+        MQTTBroker["MQTT Broker<br/>(Eclipse Mosquitto)"]
+        MongoDB[("MongoDB Atlas Database<br/>(climapredict_db)")]
+        MQTTPipeline["Ingestion Daemon<br/>(mqtt_to_mongo.py)"]
+    end
+
+    %% Connections
+    MQTTBroker -->|Raw Stream| MQTTPipeline
+    MQTTPipeline -->|Ingest Logs| MongoDB
+    Flask -->|Query Readings| MongoDB
+    MLPipeline -->|Fit / Predict| MongoDB
+    React -->|HTTP Requests| Flask
+    Flask -->|Semantic Prompts| GeminiSDK
+    React -.->|Interactive State| AIChat
+    AIChat -->|JSON Payload| Flask
 ```
 
 ---
@@ -78,64 +134,166 @@ Built for labs, offices, research facilities, and smart buildings that demand mo
 ## ✨ Features
 
 <table>
-<tr>
-<td width="50%">
-
-### 🔴 Real-Time Monitoring
-Live ingestion of IoT sensor data via the **MQTT protocol**. Track critical indoor climate metrics — temperature, humidity, CO₂ — with sub-second refresh rates and zero missed readings.
-
-</td>
-<td width="50%">
-
-### 🔮 Predictive Forecasting
-Goes beyond dashboards. Historical sensor data feeds ML models that generate **forward-looking predictions**, giving operators a clear view of environmental trajectories before thresholds are breached.
-
-</td>
-</tr>
-<tr>
-<td width="50%">
-
-### 🤖 Context-Aware AI Assistant
-An integrated **Google Gemini** chatbot that understands your live data. Ask it why CO₂ spiked at 3pm, request an interpretation of today's humidity trend, or get guided through the UI — all in natural language.
-
-</td>
-<td width="50%">
-
-### 🚨 Anomaly Detection
-An automated backend pipeline continuously validates incoming sensor readings. Sudden environmental spikes — a CO₂ surge from proximity, a temperature anomaly — are flagged, filtered, and surfaced to users in real time.
-
-</td>
-</tr>
-<tr>
-<td width="50%">
-
-### 📊 Interactive Visualizations
-Drill-down and drill-up across hierarchical time-series data. Apply advanced filters by date range, sensor type, or environmental metric. Every chart is designed to answer questions, not just display numbers.
-
-</td>
-<td width="50%">
-
-### 🎨 Dual-Theme UI/UX
-Two carefully crafted visual experiences:
-- **Dark Mode** — Cyberpunk glassmorphism with animated aurora backgrounds
-- **Light Mode** — Clean, professional, brand-aligned precision design
-
-</td>
-</tr>
+  <tr>
+    <td width="50%">
+      <h3>🔴 Real-Time Stream Ingestion</h3>
+      <p>High-frequency IoT sensor telemetry processing via the <b>MQTT Protocol</b> (Mosquitto). Sub-second updates for indoor temperature, humidity, and CO₂ concentration with resilient data buffering.</p>
+    </td>
+    <td width="50%">
+      <h3>🔮 Machine Learning Forecasts</h3>
+      <p>Custom trained Random Forest regression models analyze incoming patterns to predict 1-hour ahead CO₂ levels, alerting operators of impending air quality degradation before it happens.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <h3>🚨 Advanced Anomaly Detection</h3>
+      <p>An automated Isolation Forest pipeline validates data streams on the fly, spotting and flagging sensor errors, sudden environmental spikes, or hazardous ventilation failures.</p>
+    </td>
+    <td width="50%">
+      <h3>🤖 Semantic AI Assistant</h3>
+      <p>An inline <b>Google Gemini</b> chat assistant. Ask natural-language questions like <i>"Why did carbon dioxide spike at 2:00 PM?"</i>, and it will analyze the MongoDB context to explain trends dynamically.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <h3>📊 Rich Data Visualization</h3>
+      <p>Beautiful, responsive interactive charting that handles gaps using linear interpolation. Allows filtering by historical duration (hours/days) or specific calendar date ranges.</p>
+    </td>
+    <td width="50%">
+      <h3>🎨 Premium Responsive Design</h3>
+      <p>A stunning, glassmorphic UI styled with custom vanilla CSS. Switch smoothly between a dark cyberpunk dashboard and a clean, high-contrast light theme.</p>
+    </td>
+  </tr>
 </table>
 
 ---
 
 ## 🛠️ Technology Stack
 
-| Layer | Technology | Purpose |
-|---|---|---|
-| **Frontend** | React.js | Component-driven UI with dynamic micro-animations |
-| **Styling** | Modern CSS | Glassmorphism, aurora effects, responsive layouts |
-| **Backend** | Python + Flask | REST API, ML pipeline orchestration |
-| **Database** | MongoDB | Raw stream storage, anomaly-filtered data |
-| **IoT Protocol** | MQTT | Real-time sensor data ingestion |
-| **AI / ML** | Google Gemini API | Chatbot intelligence + predictive analytics |
+* **Frontend:** [React.js](https://react.dev/) + CSS (Glassmorphism & animations)
+* **Backend:** [Python 3](https://python.org/) + [Flask](https://flask.palletsprojects.com/)
+* **Database:** [MongoDB](https://www.mongodb.com/) (NoSQL time-series data storage)
+* **IoT Protocols:** [MQTT](https://mqtt.org/) (Eclipse Mosquitto)
+* **AI & Analytics:** [Google GenAI SDK](https://github.com/google/generative-ai-python) (Gemini 2.5 Flash Lite) + [Scikit-Learn](https://scikit-learn.org/) + [Joblib](https://joblib.readthedocs.io/)
+
+---
+
+## 📁 Repository Structure
+
+```text
+ClimaPredict/
+├── 📂 assets/                   # Dashboard screenshots & architectural diagrams
+│
+├── 📂 frontend/
+│   └── 📂 react-app/
+│       ├── 📂 src/              # React components & dashboard layout
+│       ├── 📂 public/           # Static assets (logos, icons)
+│       └── package.json         # Node.js build configs & packages
+│
+├── 📂 Backend/
+│   ├── api.py                   # Flask server, API endpoints & Gemini chat logic
+│   ├── mqtt_to_mongo.py         # Subscribes to MQTT topic and saves data to DB
+│   ├── train_ml_model.py        # Generates basic ML models for predictions
+│   ├── advanced_ml.py           # Advanced Isolation Forest & Random Forest trainer
+│   ├── ai_mqtt_worker.py        # Background MQTT pipeline with AI processing
+│   ├── export_to_csv.py         # Utility to export database tables to CSV format
+│   ├── .env                     # Local configuration keys (Ignored in Git)
+│   └── *.pkl                    # Saved ML model binaries (Ignored in Git)
+│
+├── .gitignore                   # Safe files checklist
+└── README.md                    # Creative project documentation
+```
+
+---
+
+## 🔌 API Reference & Endpoints
+
+All backend endpoints are routed through the Flask server (`http://localhost:5000`).
+
+<details>
+<summary><b>🔍 GET <code>/api/latest</code></b> — Fetch the latest telemetry & ML predictions</summary>
+
+Returns the absolute newest sensor readings along with live anomaly flags and 1-hour future predictions.
+
+**Response Schema:**
+```json
+{
+  "status": "success",
+  "data": {
+    "server_timestamp": "2026-05-25T07:10:00.123Z",
+    "dht22": {
+      "temperature": 23.4,
+      "humidity": 45.2
+    },
+    "ens160": {
+      "eco2": 450,
+      "tvoc": 12
+    },
+    "bmp280": {
+      "pressure_hpa": 1012.3
+    },
+    "ml_insights": {
+      "is_anomaly": false,
+      "predicted_co2_1hr": 482.5
+    }
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>📈 GET <code>/api/history</code></b> — Retrieve historical time-series data</summary>
+
+Returns a list of past sensor readings with linear interpolation applied to bridge any data gaps.
+
+**Query Parameters:**
+* `hours` *(optional, default: 24)*: Integer offset representing hours to fetch.
+* `start` & `end` *(optional)*: ISO-8601 strings to query a specific calendar range.
+
+**Response Schema:**
+```json
+{
+  "status": "success",
+  "count": 120,
+  "data": [
+    {
+      "server_timestamp": "2026-05-25T06:00:00Z",
+      "dht22": { "temperature": 22.8, "humidity": 46.1 },
+      "ens160": { "eco2": 410 }
+    }
+  ]
+}
+```
+</details>
+
+<details>
+<summary><b>💬 POST <code>/api/chat</code></b> — Interact with the Gemini AI Assistant</summary>
+
+Query the integrated Gemini model about environmental states, context, or dashboard settings.
+
+**Request Body:**
+```json
+{
+  "message": "Why is the carbon dioxide level rising right now?",
+  "history": [
+    { "role": "user", "text": "Hello assistant" },
+    { "role": "model", "text": "Hi! How can I help you analyze the sensor data?" }
+  ],
+  "dashboard_state": {
+    "tab": "Overview",
+    "lastReading": { "ens160": { "eco2": 820 } }
+  }
+}
+```
+
+**Response Schema:**
+```json
+{
+  "status": "success",
+  "reply": "Based on the recent telemetry log, the average CO2 level is 482 ppm, but your current dashboard shows a spike of 820 ppm. This could indicate localized ventilation issues or increased occupancy in the room."
+}
+```
+</details>
 
 ---
 
@@ -143,122 +301,71 @@ Two carefully crafted visual experiences:
 
 ### Prerequisites
 
-```bash
-node >= 18.x
-python >= 3.10
-mongodb >= 6.x
-mosquitto (MQTT broker)
-```
+* **Node.js** >= 18.x
+* **Python** >= 3.10
+* **MongoDB** >= 6.x (local or Atlas instance)
+* **Mosquitto** (or any MQTT broker)
 
-### Installation
+### Quick Setup
 
-**1. Clone the repository**
+> [!TIP]
+> Make sure your MQTT broker is active before running the ingestion pipeline!
+
+#### 1. Ingestion & Server Setup
 ```bash
+# Clone the repository
 git clone https://github.com/Hansamalee0630/ClimaPredict.git
 cd ClimaPredict
-```
 
-**2. Set up the backend**
-```bash
+# Set up virtual environment
 cd Backend
 python -m venv .venv
-
-# Activate virtual environment:
-# Windows: .venv\Scripts\activate
-# Mac/Linux: source .venv/bin/activate
-
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-**3. Configure environment variables**
-Create a `.env` file in the root backend directory:
-```bash
+#### 2. Environment Variables
+Create a file named [Backend/.env](file:///c:/Users/PC/OneDrive/Desktop/ClimaPredict/Backend/.env) and populate it with your local credentials:
+```ini
 MONGO_URI=mongodb://localhost:27017/
-GEMINI_API_KEY=your_gemini_api_key
+GEMINI_API_KEY=your_google_gemini_api_key
 MQTT_BROKER=localhost
 MQTT_PORT=1883
 ```
 
-**4. Start the Flask backend**
-```bash
-python api.py
-# API running at http://localhost:5000
-```
+#### 3. Run Services
+Start the databases and servers in separate terminal panes:
 
-**5. Set up and start the frontend**
-Open a new terminal window:
-```bash
-cd frontend/react-app
-npm install
-npm start
-# App running at http://localhost:3000
-```
-
-**6. Start your ingestion pipeline**
-Open another terminal window:
-```bash
-cd Backend
-python mqtt_to_mongo.py
-```
-
----
-
-## 📁 Project Structure
-
-```text
-ClimaPredict/
-├── 📂 frontend/
-│   └── 📂 react-app/
-│       ├── 📂 src/              # React frontend application
-│       ├── 📂 public/           # Static assets
-│       └── package.json         # Node dependencies
-│
-├── 📂 Backend/
-│   ├── api.py                   # Flask API endpoints & Routes
-│   ├── mqtt_to_mongo.py         # MQTT subscriber & DB ingestion script
-│   ├── export_to_csv.py         # Data export utility
-│   └── *.pkl                    # Machine learning models (Ignored in Git)
-│
-├── .gitignore                   # Git ignore file
-└── README.md                    # Project documentation
-```
-
----
-
-## 🔌 Core API Endpoints
-
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/sensor_data` | Fetch historical sensor readings |
-| `GET` | `/api/predictive_forecast` | Retrieve ML predictive forecasts |
-| `GET` | `/api/anomalies` | Fetch filtered anomaly data |
-| `POST` | `/api/chat` | Send queries to the Gemini AI chatbot |
+* **Pane A — Flask REST Server:**
+  ```bash
+  python api.py
+  ```
+* **Pane B — Ingestion Pipeline:**
+  ```bash
+  python mqtt_to_mongo.py
+  ```
+* **Pane C — React Dashboard:**
+  ```bash
+  cd ../frontend/react-app
+  npm install
+  npm start
+  ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how to get involved:
+We welcome additions, fixes, and experimental models! Please follow these guidelines:
 
-```bash
-# Fork the repository
-# Create a feature branch
-git checkout -b feature/your-feature-name
-
-# Make your changes and commit
-git commit -m "feat: add your feature description"
-
-# Push and open a Pull Request
-git push origin feature/your-feature-name
-```
-
-Please follow the [Conventional Commits](https://www.conventionalcommits.org/) specification and ensure all tests pass before submitting.
+1. **Branch Naming:** Use `feat/` for new systems, `fix/` for bug repairs, and `chore/` for housekeeping.
+2. **Commit Format:** Follow the [Conventional Commits](https://www.conventionalcommits.org/) standard.
+3. **Open a PR:** Ensure your code runs cleanly and lint checks pass before merging.
 
 ---
 
 ## 📜 License
 
-This project is licensed under the **MIT License**.
+Distributed under the **MIT License**. See `LICENSE` for details.
 
 ---
 
@@ -266,12 +373,12 @@ This project is licensed under the **MIT License**.
 
 <br/>
 
-*Built with precision. Designed to predict.*
+*Built with precision. Engineered for foresight.*
 
-**ClimaPredict** — shifting environmental monitoring from reactive to proactive.
+**ClimaPredict** — making environments observable, explaining anomalies, and anticipating the future.
 
 <br/>
 
-⭐ **If this project helped you, consider giving it a star!** ⭐
+⭐ **If this project helped you, give it a star on GitHub!** ⭐
 
 </div>
